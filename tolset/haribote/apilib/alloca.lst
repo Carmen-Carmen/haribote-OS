@@ -1,0 +1,19 @@
+     1 00000000                                 [FORMAT "WCOFF"]
+     2 00000000                                 [INSTRSET "i486p"]
+     3 00000000                                 [BITS 32]
+     4 00000000                                 [FILE "alloca.asm"]
+     5 00000000                                 
+     6 00000000                                     GLOBAL  __alloca
+     7 00000000                                 
+     8                                          [SECTION .text]
+     9 00000000                                 
+    10 00000000                                 __alloca:
+    11 00000000 83 C0 FC                            ADD	    EAX, -4
+    12 00000003 29 C4                               SUB	    ESP, EAX
+    13 00000005 FF 24 04                            JMP	    DWORD [ESP + EAX]	; 代替RET，因为ESP + EAX的值正好是减法运算之前ESP的值
+    14 00000008                                 
+    15 00000008                                     ; __alloca会被C语言程序调用的情况
+    16 00000008                                     ;	- 要执行的操作从栈中分配EAX个Byte的内存空间，即ESP -= EAX
+    17 00000008                                     ;	- 要遵守的规则不能改变ECX, EDX, EBP, ESI, EDI的值，或需要使用PUSH/POP来复原
+    18 00000008                                     ; 但是实际上RET命令相当于"POP EIP"，即MOV	EIP, [ESP] && ADD   ESP, 4
+    19 00000008                                     ; 所以ESP + EAX相对于正确的ESP还差了4个Byte，因此在程序开头就将EAX - 4

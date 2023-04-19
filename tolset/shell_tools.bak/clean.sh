@@ -1,0 +1,1 @@
+wine cmd < clean.bat
