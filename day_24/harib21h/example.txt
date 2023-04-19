@@ -1,0 +1,4 @@
+Hello, world!
+Hello, Haribote-OS, currently developing by Linray.
+    
+from file [example.txt]
